@@ -1,0 +1,7 @@
+{
+  "httpMethod": "GET",
+  "queryStringParameters": {
+    "TableName": "AnimalTable"
+  }
+}
+
