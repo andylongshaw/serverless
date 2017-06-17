@@ -7,72 +7,77 @@ import time
 
 class CustomerIntegrationTests(unittest.TestCase):
 
-    def create_table(self, dynamodb, table_name):
-
-        return dynamodb.Table('MyTable')
-
-        table = dynamodb.create_table(
-            TableName = table_name,
-            KeySchema = [
-                {
-                    'AttributeName': 'CustomerId',
-                    'KeyType': 'HASH'  # Partition key
-                },
-                {
-                    'AttributeName': 'Name',
-                    'KeyType': 'RANGE'  # Sort key
-                }
-            ],
-            AttributeDefinitions=[
-                {
-                    'AttributeName': 'CustomerId',
-                    'AttributeType': 'S'
-                },
-                {
-                    'AttributeName': 'Name',
-                    'AttributeType': 'S'
-                },
-
-            ]
-        )
-
-        # Wait until the table exists.
-        table.meta.client.get_waiter('table_exists').wait(TableName='users')
-
-        while table.table_status is not 'ACTIVE':
-            print("Table not ready. It is still {}. Sleeping for 10 seconds...".format(table.table_status))
-            time.sleep(10)
-
-        return table
 
 
-    def test_create_and_retrieve(self):
+    def test_raw_create_and_retrieve(self):
         customer_id = 'A1234'
         customer_name = 'Fred Bloggs'
         table_name = 'SPA' + str(uuid.uuid4())
 
-        dynamodb = boto3.resource("dynamodb", region_name='eu-west-1')
+        dynamo_proxy = DynamoProxy(table_name)
 
-        table = self.create_table(dynamodb, table_name)
+        dynamo_proxy.create_customer_record(customer_id, customer_name)
 
-        table.put_item(
-            Item = {
-                'CustomerId': customer_id,
-                'Name': customer_name
-            }
-        )
-
-        response = table.get_item(
-            Key={
-                'CustomerId': 'A1234'
-            }
-        )
+        response = dynamo_proxy.retrieve_customer_record(customer_id)
 
         self.assertTrue('Item' in response, 'No item returned from get_item')
 
         item = response['Item']
 
-        self.assertEqual(customer_id, item['CustomerId'])
+        self.assertEqual(customer_id, item['customerId'])
+
+        dynamo_proxy.close()
+
+
+class DynamoProxy():
+
+    def __init__(self, table_name):
+        dynamodb = boto3.resource("dynamodb", region_name='eu-west-1')
+
+        self.table = dynamodb.create_table(
+            TableName=table_name,
+            KeySchema=[
+                {
+                    'AttributeName': 'customerId',
+                    'KeyType': 'HASH'  # Partition key
+                }
+            ],
+            AttributeDefinitions=[
+                {
+                    'AttributeName': 'customerId',
+                    'AttributeType': 'S'
+                }
+            ],
+            ProvisionedThroughput={
+                'ReadCapacityUnits': 5,
+                'WriteCapacityUnits': 5
+            }
+        )
+
+        self.table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
+
+        print("Table created" + str(self.table))
+
+    def close(self):
+        if self.table is not None:
+            print('Deleting table ' + str(self.table))
+            self.table.delete()
+
+    def create_customer_record(self, customer_id, customer_name):
+        self.table.put_item(
+            Item={
+                'customerId': customer_id,
+                'name': customer_name
+            }
+        )
+
+    def retrieve_customer_record(self, customer_id):
+        response = self.table.get_item(
+            Key={
+                'customerId': customer_id
+            }
+        )
+        return response
 
 
 if __name__ == '__main__':

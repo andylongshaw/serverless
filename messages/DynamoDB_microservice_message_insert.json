@@ -1,11 +1,8 @@
 {
   "httpMethod": "POST",
-  "body": {
-    "TableName": "AnimalTable",
-    "Item": {
-        "CustomerId": "A1234",
-        "Name": "Fred Bloggs"
-    }
+  "customer": {
+        "customerId": "A1234",
+        "name": "Fred Bloggs"
   }
 }
 

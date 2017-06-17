@@ -1,7 +1,7 @@
 {
   "httpMethod": "GET",
-  "queryStringParameters": {
-    "TableName": "AnimalTable"
+  "customerKey": {
+    "customerId": "A1234"
   }
 }
 
