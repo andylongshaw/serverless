@@ -1,0 +1,47 @@
+{
+	"Description" : "Setup stack for DynamoDB part of serverless exercise",
+
+	"Parameters" : {
+		"namePrefixParameter" : {
+			"Type" : "String",
+			"Default" : "spa2017",
+			"Description" : "Tag to add to the front of item names"
+		}
+	},
+
+    "Resources" : {
+    	"theCalculationTable" : {
+ 			 "Type" : "AWS::DynamoDB::Table",
+  			 "Properties" : {
+  			   "TableName": { "Fn::Join" : ["", [
+    				{"Ref" : "namePrefixParameter"},
+    				"-",
+    				"CalculationTable"
+    				]]
+    			},
+    		   "AttributeDefinitions" : [ {"AttributeName" : "calc_id", "AttributeType" : "S"}, 
+    		                              {"AttributeName" : "calc_timestamp", "AttributeType" : "S"}],
+               "KeySchema" : [ {"AttributeName" : "calc_id", "KeyType" : "HASH"}, 
+            	               {"AttributeName" : "calc_timestamp", "KeyType" : "RANGE"}],
+               "ProvisionedThroughput" : { "ReadCapacityUnits" : 1, "WriteCapacityUnits" : 1}
+            }
+        },
+    	"theSummaryTable" : {
+ 			 "Type" : "AWS::DynamoDB::Table",
+  			 "Properties" : {
+  			   "TableName": { "Fn::Join" : ["", [
+    				{"Ref" : "namePrefixParameter"},
+    				"-",
+    				"SummaryTable"
+    				]]
+    			},
+    		   "AttributeDefinitions" : [ {"AttributeName" : "summary_id", "AttributeType" : "S"}, 
+    		                              {"AttributeName" : "summary_timestamp", "AttributeType" : "S"}],
+               "KeySchema" : [ {"AttributeName" : "summary_id", "KeyType" : "HASH"}, 
+            	               {"AttributeName" : "summary_timestamp", "KeyType" : "RANGE"}],
+               "ProvisionedThroughput" : { "ReadCapacityUnits" : 1, "WriteCapacityUnits" : 1}
+            }
+
+        }
+    }
+}
