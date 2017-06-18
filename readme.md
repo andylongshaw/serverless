@@ -18,20 +18,35 @@ The supporting artefacts for the exercises can be found in the public repository
 In this part, you will create a simple microservice that inserts a row in a DynamoDB database table (\<MyAnimal\>Customer) in response to a REST message.
 
 1. Create \<MyAnimal\>Customer table in DynamoDB with a primary key (Partition Key) of 'customerId'
+    
     > In the AWS Console, select Database -> DynamoDB -> Create Table
+    
     > Enter the name of the table and the primary key - leave all other options as default
+    
 1. Create a API gateway-based microservice lambda
+    
     > In the AWS Console, select Compute -> Lambda -> Create a Lmabda Function
+    
     > Select a blueprint -> Select runtime Python 3.6 -> microservice-http-endpoint-python
+    
     > Configure triggers -> set API Name to \<MyAnimal\>Microservice -> Next
+    
     > Configure function -> set Name to \<MyAnimal\>Customer -> set Role Name to \<MyAnimal\>Role
+    
     > Review and create lambda
+
 1. Replace the code in it with the example code from the repository
+    
     > Open the file solutions/python/aws_lambda_wrapper.py
+    
     > Click on the Code tab in your lambda function
+    
     > Paste the code from the file into the code box, replacing what was there before
+    
     > Click the Save button
+    
     > Review the code to make sure you understand what it does
+
 1. 
 
 **HERE**
