@@ -12,15 +12,32 @@ The session leaders will provide you with a password for the AWS user you will u
 # Getting ready
 
 1. Make sure you can log into the AWS console for the account using the AWS user for your group: \<MyAnimal\>Admin
-1. Install the AWS CLI on your laptop following [these instructions](http://docs.aws.amazon.com/cli/latest/userguide/installing.html)
-1.  Take care to use the configuration file advice on the http://docs.aws.amazon.com/lambda/latest/dg/setup-awscli.html page, not the regular CLI instructions
 
-# Create the Customer microservice
+Try the Hello world example first?
+
+# Create and test the Customer microservice
 In this part, you will create a simple microservice that inserts a row in a DynamoDB database table (Customers) in response to a REST message.
 
-1. Create \<MyAnimal\>Customer table in DynamoDB
+1. Create \<MyAnimal\>Customer table in DynamoDB with a primary key (Partition Key) of 'customerId'
+    > In the AWS Console, select Database -> DynamoDB -> Create Table
+1. 
 
-# Create the Customer Email event handler
+# Create and test the Customer Email event handler
 In this part you will create a lambda that will react to the writing of the Customer record by updating a second table (PendingEmails).
 
 1. Create \<MyAnimal\>PendingEmails table in DynamoDB
+
+# Call the Customer microservice from a command line client
+
+Python 3 installed locally
+sudo pip3 install boto3
+sudo pip3 install requests
+
+
+OR
+
+
+1. Install the AWS CLI on your laptop following [these instructions](http://docs.aws.amazon.com/cli/latest/userguide/installing.html)
+1.  Take care to use the configuration file advice on the http://docs.aws.amazon.com/lambda/latest/dg/setup-awscli.html page, not the regular CLI instructions
+
+use the CLI API
