@@ -1,12 +1,29 @@
 import unittest
 import uuid
-import json
-import boto3
-import time
+import requests
+from dynamo_proxy import DynamoProxy
 
 
 class CustomerIntegrationTests(unittest.TestCase):
 
+    def test_microservice_create_and_retrieve(self):
+        #table_name = 'SPA' + str(uuid.uuid4())
+        table_name = 'ZebraTable'
+
+        dynamo_proxy = DynamoProxy(table_name)
+
+        with open('../../messages/DynamoDB_microservice_message_insert.json', 'r') as myfile:
+            insert_message = myfile.read().replace('\n', '')
+
+        print(insert_message)
+
+        url = 'https://opf5rml8y5.execute-api.eu-west-1.amazonaws.com/prod/DynamoFunction'
+
+        response = requests.post(url, data=insert_message)
+
+        print(response)
+
+        dynamo_proxy.close()
 
 
     def test_raw_create_and_retrieve(self):
@@ -27,57 +44,6 @@ class CustomerIntegrationTests(unittest.TestCase):
         self.assertEqual(customer_id, item['customerId'])
 
         dynamo_proxy.close()
-
-
-class DynamoProxy():
-
-    def __init__(self, table_name):
-        dynamodb = boto3.resource("dynamodb", region_name='eu-west-1')
-
-        self.table = dynamodb.create_table(
-            TableName=table_name,
-            KeySchema=[
-                {
-                    'AttributeName': 'customerId',
-                    'KeyType': 'HASH'  # Partition key
-                }
-            ],
-            AttributeDefinitions=[
-                {
-                    'AttributeName': 'customerId',
-                    'AttributeType': 'S'
-                }
-            ],
-            ProvisionedThroughput={
-                'ReadCapacityUnits': 5,
-                'WriteCapacityUnits': 5
-            }
-        )
-
-        self.table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
-
-        print("Table created" + str(self.table))
-
-    def close(self):
-        if self.table is not None:
-            print('Deleting table ' + str(self.table))
-            self.table.delete()
-
-    def create_customer_record(self, customer_id, customer_name):
-        self.table.put_item(
-            Item={
-                'customerId': customer_id,
-                'name': customer_name
-            }
-        )
-
-    def retrieve_customer_record(self, customer_id):
-        response = self.table.get_item(
-            Key={
-                'customerId': customer_id
-            }
-        )
-        return response
 
 
 if __name__ == '__main__':

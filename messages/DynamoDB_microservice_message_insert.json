@@ -1,8 +1,8 @@
 {
   "httpMethod": "POST",
-  "customer": {
-        "customerId": "A1234",
-        "name": "Fred Bloggs"
+  "body": {
+    "customerId": "A1234",
+    "name": "Freddo Bloggs"
   }
 }
 
