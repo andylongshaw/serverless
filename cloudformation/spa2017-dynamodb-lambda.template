@@ -21,11 +21,12 @@
     			},
     		   "AttributeDefinitions" : [ {"AttributeName" : "calc_id", "AttributeType" : "S"}, 
     		                              {"AttributeName" : "calc_timestamp", "AttributeType" : "S"}],
-               "KeySchema" : [ {"AttributeName" : "calc_id", "KeyType" : "HASH"}, 
-            	               {"AttributeName" : "calc_timestamp", "KeyType" : "RANGE"}],
-               "ProvisionedThroughput" : { "ReadCapacityUnits" : 1, "WriteCapacityUnits" : 1}
-            }
-        },
+           "KeySchema" : [ {"AttributeName" : "calc_id", "KeyType" : "HASH"}, 
+            	             {"AttributeName" : "calc_timestamp", "KeyType" : "RANGE"}],
+            "ProvisionedThroughput" : { "ReadCapacityUnits" : 1, "WriteCapacityUnits" : 1},
+            "StreamSpecification" : { "StreamViewType" : "NEW_IMAGE"}
+          }
+      },
     	"theSummaryTable" : {
  			 "Type" : "AWS::DynamoDB::Table",
   			 "Properties" : {
@@ -42,6 +43,77 @@
                "ProvisionedThroughput" : { "ReadCapacityUnits" : 1, "WriteCapacityUnits" : 1}
             }
 
+        },
+        "theLambdaExecutionRole" : {
+          "Type" : "AWS::IAM::Role",
+          "Properties" : {
+            "RoleName" : { "Fn::Join" : ["", [
+              {"Ref" : "namePrefixParameter"},
+              "-",
+              "DynamoLambdaExecutionRole"
+            ]]
+            },
+            "AssumeRolePolicyDocument" : {
+              "Version" : "2012-10-17",
+              "Statement" : [ {
+                "Effect" : "Allow",
+                "Principal" : { "Service" : ["lambda.amazonaws.com"]},
+                "Action" : ["sts:AssumeRole"]
+              }]
+            },
+            "ManagedPolicyArns" : ["arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"],
+            "Policies": [{
+              "PolicyName": "LambdaDynamoAccessPolicy",
+              "PolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [{
+                    "Effect": "Allow",
+                    "Action": [
+                      "dynamodb:DescribeStream",
+                      "dynamodb:GetItem",
+                      "dynamodb:GetRecords",
+                      "dynamodb:GetShardIterator",
+                      "dynamodb:ListStreams",
+                      "dynamodb:PutItem"
+                    ],
+                    "Resource": "arn:aws:dynamodb:*:*:table/*"
+                }]
+              }
+            }]
+          }
+        },
+      "theDynamoChangeHandlerLambda" : {
+        "Type" : "AWS::Lambda::Function",
+        "Properties" : {
+          "FunctionName" : { "Fn::Join" : ["", [
+            {"Ref" : "namePrefixParameter"},
+            "-",
+            "DynamoChangeHandlerLambda"
+            ]]
+          },
+          "Code" : { "ZipFile" :  { "Fn::Join" : ["\n", [
+                     "from __future__ import print_function",
+                     "",
+                       "def lambda_handler(event, context):",
+                       "    for record in event['Records']:",
+                       "        print('processed record with event ID {0} and name {1}'.format(record['eventID'], record['eventName']))",
+                       "    print('Successfully processed %s records.' % str(len(event['Records'])))"
+                       ]]}
+                    },
+          "Handler" : "index.lambda_handler",
+          "MemorySize" : "128",
+          "Role" : { "Fn::GetAtt": ["theLambdaExecutionRole", "Arn"]},
+          "Runtime" : "python3.6"
         }
+      },
+      "theDynamoLambdaMapping" : {
+        "Type" : "AWS::Lambda::EventSourceMapping",
+        "Properties" : {
+          "Enabled" : "True",
+          "EventSourceArn" : { "Fn::GetAtt": ["theCalculationTable", "StreamArn"]},
+          "FunctionName" : { "Fn::GetAtt": ["theDynamoChangeHandlerLambda", "Arn"]},
+          "StartingPosition" : "LATEST"
+        }
+      }
     }
 }
