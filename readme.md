@@ -6,6 +6,8 @@ To avoid a lot of complex pre-requisites, this workshop uses a single AWS accoun
 
 The session leaders will provide you with a password for the AWS user you will use to create all your resources.
 
+The supporting artefacts for the exercises can be found in the public repository https://github.com/andylongshaw/serverless
+
 # Getting ready
 
 1. Make sure you can log into the AWS console for the account using the AWS user for your group: \<MyAnimal\>Admin
@@ -18,7 +20,22 @@ In this part, you will create a simple microservice that inserts a row in a Dyna
 1. Create \<MyAnimal\>Customer table in DynamoDB with a primary key (Partition Key) of 'customerId'
     > In the AWS Console, select Database -> DynamoDB -> Create Table
     > Enter the name of the table and the primary key - leave all other options as default
+1. Create a API gateway-based microservice lambda
+    > In the AWS Console, select Compute -> Lambda -> Create a Lmabda Function
+    > Select a blueprint -> Select runtime Python 3.6 -> microservice-http-endpoint-python
+    > Configure triggers -> set API Name to \<MyAnimal\>Microservice -> Next
+    > Configure function -> set Name to \<MyAnimal\>Customer -> set Role Name to \<MyAnimal\>Role
+    > Review and create lambda
+1. Replace the code in it with the example code from the repository
+    > Open the file solutions/python/aws_lambda_wrapper.py
+    > Click on the Code tab in your lambda function
+    > Paste the code from the file into the code box, replacing what was there before
+    > Click the Save button
+    > Review the code to make sure you understand what it does
 1. 
+
+**HERE**
+use the pre-provided create customer and retrieve customer JSON files in your test, try adjusting the json files to add/retrieve different records
 
 # Create and test the Customer Email event handler
 In this part you will create a lambda that will react to the writing of the Customer record by updating a second table (PendingEmails).
