@@ -6,26 +6,30 @@ To avoid a lot of complex pre-requisites, this workshop uses a single AWS accoun
 
 The session leaders will provide you with a password for the AWS user you will use to create all your resources.
 
-**TBC** - will we pre-provide their admin user rather than give them root creds and have them provision it?
-   Create IAM user(s) in account http://docs.aws.amazon.com/lambda/latest/dg/setting-up.html#setting-up-iam
-
 # Getting ready
 
 1. Make sure you can log into the AWS console for the account using the AWS user for your group: \<MyAnimal\>Admin
 
-Try the Hello world example first?
+**TBA** Try the Hello world example first
 
 # Create and test the Customer microservice
-In this part, you will create a simple microservice that inserts a row in a DynamoDB database table (Customers) in response to a REST message.
+In this part, you will create a simple microservice that inserts a row in a DynamoDB database table (\<MyAnimal\>Customer) in response to a REST message.
 
 1. Create \<MyAnimal\>Customer table in DynamoDB with a primary key (Partition Key) of 'customerId'
     > In the AWS Console, select Database -> DynamoDB -> Create Table
+    > Enter the name of the table and the primary key - leave all other options as default
 1. 
 
 # Create and test the Customer Email event handler
 In this part you will create a lambda that will react to the writing of the Customer record by updating a second table (PendingEmails).
 
-1. Create \<MyAnimal\>PendingEmails table in DynamoDB
+1. Create \<MyAnimal\>PendingEmails table in DynamoDB with a primary key (Partition Key) of 'emailId'
+    > In the AWS Console, select Database -> DynamoDB -> Create Table
+    > Enter the name of the table and the primary key - leave all other options as default
+1. Alter the **\<MyAnimal\>Customer** table in DynamoDB so that it generates an event stream when records are inserted
+    > Find the table in the AWS Console and click on it
+    > Select Overview -> Stream Details -> Manage Stream
+**HERE**
 
 # Call the Customer microservice from a command line client
 
