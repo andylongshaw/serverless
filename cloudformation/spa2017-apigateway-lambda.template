@@ -175,7 +175,7 @@
 				"ResourceId" : {"Ref" : "theLambdaApiResource"},
 				"RestApiId"  : {"Ref" : "theLambdaApi"},
 				"Integration" : {
-					"Type" : "AWS",
+					"Type" : "AWS_PROXY",
 					"IntegrationHttpMethod" : "POST",
 					"Uri" : {
 						"Fn::Join" : ["", [
