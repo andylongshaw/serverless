@@ -1,0 +1,199 @@
+{
+	 "Description" : "Setup stack for API part of serverless exercise",
+
+	 "Parameters" : {
+	 	 "namePrefixParameter" : {
+		  	"Type" : "String",
+			  "Default" : "spa2017",
+			  "Description" : "Tag to add to the front of item names"
+		  }
+	  },
+
+    "Resources" : {
+    	"theLambdaApi" : {
+    		"Type" : "AWS::ApiGateway::RestApi",
+    		"Properties" : {
+    			"Name" : { "Fn::Join" : ["", [
+    				{"Ref" : "namePrefixParameter"},
+    				"-",
+    				"LambdaApi"
+    				]]
+    			},
+    			"Description" : "API for calling lambda functions",
+    			"FailOnWarnings" : "true"
+    		}
+    	},
+    	"theApiHandlerLambda" : {
+    		"Type" : "AWS::Lambda::Function",
+    		"Properties" : {
+    			"FunctionName" : { "Fn::Join" : ["", [
+    				{"Ref" : "namePrefixParameter"},
+    				"-",
+    				"ApiHandlerLambda"
+    				]]
+    			},
+    			"Code" : { "ZipFile" :  { "Fn::Join" : ["\n", [
+    				         "import datetime",
+    				         "def process_api_call(params):",
+    				         "   return",
+    				         "",
+    			             "def lambda_handler(event, context):",
+    			             "   #result = process_api_call(event['queryStringParameters'])",
+    			             "   result = 'lambda ' + context.function_name + ' was called at ' + datetime.datetime.now().strftime('%c')",
+                             "   print(result)",
+                             "   return {",
+                             "      'statusCode': 200,",
+                             "      'body': '{0}'.format(result)",
+                             "   }"
+                             ]]}
+                          },
+    			"Handler" : "index.lambda_handler",
+    			"MemorySize" : "128",
+    			"Role" : { "Fn::GetAtt": ["theLambdaExecutionRole", "Arn"]},
+    			"Runtime" : "python3.6"
+
+    		}
+    	},
+    	"theLambdaExecutionRole" : {
+    		"Type" : "AWS::IAM::Role",
+    		"Properties" : {
+    			"RoleName" : { "Fn::Join" : ["", [
+    				{"Ref" : "namePrefixParameter"},
+    				"-",
+    				"LambdaExecutionRole"
+    				]]
+    			},
+    			"AssumeRolePolicyDocument" : {
+    				"Version" : "2012-10-17",
+    				"Statement" : [ {
+    					"Effect" : "Allow",
+    					"Principal" : { "Service" : ["lambda.amazonaws.com"]},
+    					"Action" : ["sts:AssumeRole"]
+    				}]
+
+    			},
+    			"ManagedPolicyArns" : ["arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"]
+    		}
+    	} ,
+    	"theApiHandlerLambdaPermission": {
+  			"Type": "AWS::Lambda::Permission",
+			"Properties": {
+    			"Action": "lambda:invokeFunction",
+    			"FunctionName": {"Fn::GetAtt": ["theApiHandlerLambda", "Arn"]},
+    			"Principal": "apigateway.amazonaws.com",
+    			"SourceArn": {"Fn::Join": ["", 
+      				["arn:aws:execute-api:", {"Ref": "AWS::Region"}, ":", {"Ref": "AWS::AccountId"}, ":", {"Ref": "theLambdaApi"}, "/*"]
+    			]}
+  			}
+		},
+		"theLambdaApiStage": {
+  			"DependsOn" : ["theApiGatewayAccount"],
+  			"Type": "AWS::ApiGateway::Stage",
+  			"Properties": {
+    			"DeploymentId": {"Ref": "theApiDeployment"},
+    			"MethodSettings": [{
+      				"DataTraceEnabled": true,
+      				"HttpMethod": "GET",
+      				"LoggingLevel": "INFO",
+      				"ResourcePath": "/*"
+    			}],
+    			"RestApiId": {"Ref": "theLambdaApi"},
+    			"StageName": "LATEST"
+  			}
+		},
+		"theApiGatewayCloudWatchLogsRole": {
+  			"Type": "AWS::IAM::Role",
+  			"Properties": {
+  				"RoleName" : { "Fn::Join" : ["", [
+    				{"Ref" : "namePrefixParameter"},
+    				"-",
+    				"ApiGatewayCloudWatchLogsRole"
+    				]]
+    			},
+    			"AssumeRolePolicyDocument": {
+      				"Version": "2012-10-17",
+      				"Statement": [{
+        				"Effect": "Allow",
+        					"Principal": { "Service": ["apigateway.amazonaws.com"] },
+        					"Action": ["sts:AssumeRole"]
+      				}]
+    			},
+    			"Policies": [{
+      				"PolicyName": "ApiGatewayLogsPolicy",
+      				"PolicyDocument": {
+        				"Version": "2012-10-17",
+        				"Statement": [{
+          					"Effect": "Allow",
+          					"Action": [
+            					"logs:CreateLogGroup",
+            					"logs:CreateLogStream",
+            					"logs:DescribeLogGroups",
+            					"logs:DescribeLogStreams",
+            					"logs:PutLogEvents",
+            					"logs:GetLogEvents",
+            					"logs:FilterLogEvents"
+          					],
+          					"Resource": "*"
+        				}]
+      				}
+    			}]
+  			}
+		},
+		"theApiGatewayAccount" : {
+			"Type" : "AWS::ApiGateway::Account",
+			"Properties" : {
+				"CloudWatchRoleArn" : {"Fn::GetAtt" : ["theApiGatewayCloudWatchLogsRole", "Arn"]}
+			}
+		},
+		"theApiDeployment" : {
+			"Type" : "AWS::ApiGateway::Deployment",
+			"DependsOn" : ["theLambdaCalcRequestMethod"],
+			"Properties" : {
+				"RestApiId" : {"Ref" : "theLambdaApi"},
+				"StageName" : "UnusedStageName"
+			}
+		},
+		"theLambdaApiResource" : {
+			"Type" : "AWS::ApiGateway::Resource",
+			"Properties" : {
+				"RestApiId" : {"Ref" : "theLambdaApi"},
+				"ParentId" : {"Fn::GetAtt" : ["theLambdaApi", "RootResourceId"]},
+				"PathPart" : "int_calc"
+			}
+		},
+		"theLambdaCalcRequestMethod" : {
+			"DependsOn" : "theApiHandlerLambdaPermission",
+			"Type" : "AWS::ApiGateway::Method",
+			"Properties" : {
+				"AuthorizationType" : "NONE",
+				"HttpMethod" : "GET",
+				"RequestParameters" : {
+					"method.request.querystring.x" : true,
+					"method.request.querystring.y" : true,
+					"method.request.querystring.operator" : true
+				},
+				"ResourceId" : {"Ref" : "theLambdaApiResource"},
+				"RestApiId"  : {"Ref" : "theLambdaApi"},
+				"Integration" : {
+					"Type" : "AWS_PROXY",
+					"IntegrationHttpMethod" : "POST",
+					"Uri" : {
+						"Fn::Join" : ["", [
+							"arn:aws:apigateway:",
+							{"Ref" : "AWS::Region"},
+							":lambda:path/2015-03-31/functions/",
+							{"Fn::GetAtt" : ["theApiHandlerLambda", "Arn"]},
+							"/invocations"
+						]]
+					},
+					"IntegrationResponses" : [{
+						"StatusCode" : 200
+					}]
+				},
+				"MethodResponses" : [{
+					"StatusCode" : 200
+				}]
+			}
+		}
+  }
+}
