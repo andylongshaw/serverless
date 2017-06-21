@@ -10,36 +10,32 @@
 	},
 
     "Resources" : {
-    	"theCalculationTable" : {
+    	"theCustomerTable" : {
  			 "Type" : "AWS::DynamoDB::Table",
   			 "Properties" : {
   			   "TableName": { "Fn::Join" : ["", [
     				{"Ref" : "namePrefixParameter"},
     				"-",
-    				"CalculationTable"
+    				"CustomerTable"
     				]]
     			},
-    		   "AttributeDefinitions" : [ {"AttributeName" : "calc_id", "AttributeType" : "S"}, 
-    		                              {"AttributeName" : "calc_timestamp", "AttributeType" : "S"}],
-           "KeySchema" : [ {"AttributeName" : "calc_id", "KeyType" : "HASH"}, 
-            	             {"AttributeName" : "calc_timestamp", "KeyType" : "RANGE"}],
+    		   "AttributeDefinitions" : [ {"AttributeName" : "customerId", "AttributeType" : "S"}],
+           "KeySchema" : [ {"AttributeName" : "customerId", "KeyType" : "HASH"}],
             "ProvisionedThroughput" : { "ReadCapacityUnits" : 1, "WriteCapacityUnits" : 1},
             "StreamSpecification" : { "StreamViewType" : "NEW_IMAGE"}
           }
       },
-    	"theSummaryTable" : {
+    	"thePendingEmailTable" : {
  			 "Type" : "AWS::DynamoDB::Table",
   			 "Properties" : {
   			   "TableName": { "Fn::Join" : ["", [
     				{"Ref" : "namePrefixParameter"},
     				"-",
-    				"SummaryTable"
+    				"PendingEmailTable"
     				]]
     			},
-    		   "AttributeDefinitions" : [ {"AttributeName" : "summary_id", "AttributeType" : "S"}, 
-    		                              {"AttributeName" : "summary_timestamp", "AttributeType" : "S"}],
-               "KeySchema" : [ {"AttributeName" : "summary_id", "KeyType" : "HASH"}, 
-            	               {"AttributeName" : "summary_timestamp", "KeyType" : "RANGE"}],
+    		   "AttributeDefinitions" : [ {"AttributeName" : "emailId", "AttributeType" : "S"}],
+               "KeySchema" : [ {"AttributeName" : "emailId", "KeyType" : "HASH"}],
                "ProvisionedThroughput" : { "ReadCapacityUnits" : 1, "WriteCapacityUnits" : 1}
             }
 
@@ -110,7 +106,7 @@
         "Type" : "AWS::Lambda::EventSourceMapping",
         "Properties" : {
           "Enabled" : "True",
-          "EventSourceArn" : { "Fn::GetAtt": ["theCalculationTable", "StreamArn"]},
+          "EventSourceArn" : { "Fn::GetAtt": ["theCustomerTable", "StreamArn"]},
           "FunctionName" : { "Fn::GetAtt": ["theDynamoChangeHandlerLambda", "Arn"]},
           "StartingPosition" : "LATEST"
         }

@@ -72,7 +72,8 @@
     				}]
 
     			},
-    			"ManagedPolicyArns" : ["arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"]
+    			"ManagedPolicyArns" : [ "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+    			                        "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"]
     		}
     	} ,
     	"theApiHandlerLambdaPermission": {
@@ -147,7 +148,7 @@
 		},
 		"theApiDeployment" : {
 			"Type" : "AWS::ApiGateway::Deployment",
-			"DependsOn" : ["theLambdaCalcRequestMethod"],
+			"DependsOn" : ["theLambdaCustomerRequestMethod"],
 			"Properties" : {
 				"RestApiId" : {"Ref" : "theLambdaApi"},
 				"StageName" : "UnusedStageName"
@@ -158,10 +159,10 @@
 			"Properties" : {
 				"RestApiId" : {"Ref" : "theLambdaApi"},
 				"ParentId" : {"Fn::GetAtt" : ["theLambdaApi", "RootResourceId"]},
-				"PathPart" : "int_calc"
+				"PathPart" : "customer"
 			}
 		},
-		"theLambdaCalcRequestMethod" : {
+		"theLambdaCustomerRequestMethod" : {
 			"DependsOn" : "theApiHandlerLambdaPermission",
 			"Type" : "AWS::ApiGateway::Method",
 			"Properties" : {
