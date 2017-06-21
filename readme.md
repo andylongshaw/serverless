@@ -60,7 +60,18 @@ In this part you will create a lambda that will react to the writing of the Cust
     > Enter the name of the table and the primary key - leave all other options as default
 1. Alter the **\<MyAnimal\>Customer** table in DynamoDB so that it generates an event stream when records are inserted
     > Find the table in the AWS Console and click on it
-    > Select Overview -> Stream Details -> Manage Stream
+    > Select Overview -> Stream Details -> Manage Stream -> old and new images
+    
+    Breadcrumbs from here...
+    
+    Dynamodb process stream python
+    Table: Animal customer
+    Starting pos: latest
+    Function name: ZebraCustomerWelcomeEmail
+    Role: ZebraRole
+    
+    Test event: DyanmoDb update
+    IAM: add AmazonDynamoDBFullControl to Animal Role
 **HERE**
 
 # Call the Customer microservice from a command line client
