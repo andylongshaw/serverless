@@ -64,26 +64,27 @@ In this part, you will create a simple microservice based on a lambda that is ca
 
 
 # Make your simple microservice store data in DynamoDB
+In this part you will update your lambda function to write a record to the CustomerTable.
 
 1. Create a second Cloud Formation Stack based on the instructions below
 
-  > In the AWS Console, navigate to the CloudFormation console
+    > In the AWS Console, navigate to the CloudFormation console
 
-  > Select Create Stack
+    > Select Create Stack
 
-  > Select Template -> Choose a template -> Upload a template
+    > Select Template -> Choose a template -> Upload a template
 
-  > Select the file spa2017-dynamodb-lambda.template
+    > Select the file spa2017-dynamodb-lambda.template
 
-  > Specify details -> Stack name - set this to \<My Animal\>DynamodbStack
+    > Specify details -> Stack name - set this to \<My Animal\>DynamodbStack
 
-  > Parameters -> namePrefixParameter - change this from spa2017 to \<My Animal\>
+    > Parameters -> namePrefixParameter - change this from spa2017 to \<My Animal\>
 
-  > Options -> just click Next
+    > Options -> just click Next
 
-  > Review -> click the "I acknowledge that..." checkbox -> Create
+    > Review -> click the "I acknowledge that..." checkbox -> Create
 
-  > Wait until the Status of the stack in the list of Stacks is CREATE_COMPLETE
+    > Wait until the Status of the stack in the list of Stacks is CREATE_COMPLETE
 
 1. In the AWS console, navigate to the DynamoDB console and examine the \<My Animal\>-CustomerTable
 
@@ -139,21 +140,27 @@ In this part, you will create a simple microservice based on a lambda that is ca
 
 
 # Create and test the Customer Email event handler
-In this part you will create a lambda that will react to the writing of the CustomerTable record by updating a second table (PendingEmailsTable).
+In this part you will create a lambda that will react to the writing of the CustomerTable record by updating a second table (PendingEmailTable).
 
-1. In the DynamoDB console, navigate to the \<MyAnimal\>PendingEmailsTable ***CONFIRM***
+1. In the DynamoDB console, navigate to the \<MyAnimal\>-PendingEmailTable
 
-    > emailId
+    > Click Tables in the left-hand navigation bar
 
-1. Now navigate to the \<MyAnimal\>PendingEmailsTable and look at the Triggers tab
+    > Click on the table name
 
-    > lambda connection
+    > Examine the information in the Overview tab
+
+    > Look at the Items tab - this is where you can see your records appear
+
+1. Now navigate to the \<MyAnimal\>-CustomerTable and look at the Triggers tab
+
+    > You should see an entry for a lambda called \<MyAnimal\>-DynamoChangeHandlerLambda
 
 1. Click through the lambda link in the Trigger and populate the event handler lambda with the example code from the repository
 
     > Open the file solutions/python/aws_lambda_event_handler.py
 
-    > Click on the Code tab in your ***TBA*** lambda function
+    > Click on the Code tab in your Bat-DynamoChangeHandlerLambda lambda function
 
     > Paste the code from the file into the code box, completely replacing what was there before
 
@@ -161,25 +168,31 @@ In this part you will create a lambda that will react to the writing of the Cust
 
     > Review the code to make sure you can roughly follow what it does
 
-1. Change the 'table_name' variable to be ***TBA***
+1. Change the 'table_name' variable to be \<MyAnimal\>-PendingEmailTable
 
 1. Run the test to insert a record
 
-    > DynamoDB_event_lambda_message_insert.json
+    > Click the Actions button and select Configure test event
 
-1. In the DynamoDB console, go see the data
+    > Locate the messages folder in the github repository and paste  the contents of the DynamoDB_event_lambda_message_insert.json file into the input test event box, completely replacing what was there before
+
+    > Click Save and Test
+
+    > Examine the execution result and the log output
+
+1. Navigate to the DynamoDB console and check that it contains a Customer matching the data in the message file above
 
 # Run the lambda combination end-to-end
 
-1. In the AWS console, navigate back to the ***TBA*** lambda
+1. In the AWS console, navigate back to the \<MyAnimal\>-ApiHandlerLambda lambda
 
-1. Edit the test to change the customerId and name
+1. Edit the test to change it to the POST/create version of the message and change the customerId and name to something distinctive
 
 1. Run the test
 
-1. Check you get the right customer record in ***TBA***
+1. Check you get the right customer record in \<MyAnimal\>-CustomerTable
 
-1. Check you get the right email record in ***TBA***
+1. Check you get an appropriate email record in \<MyAnimal\>-PendingEmailTable
 
 
 # Extension 1 - invoke the microservice lambda from the API gateway console
