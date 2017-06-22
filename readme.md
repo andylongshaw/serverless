@@ -209,5 +209,8 @@ In this part you will create a lambda that will react to the writing of the Cust
 
 1. Check you get an appropriate email record in \<MyAnimal\>-PendingEmailTable
 
+# What now?
+
+Well, you could either try the [extension exercises](extensions.md) or you could go and get a well-earned coffee.
 
 
