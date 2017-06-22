@@ -14,13 +14,13 @@ The supporting artefacts for the exercises can be found in the public repository
 
 1. Use the main console search bar to locate the individual consoles you will need during this exercise:
 
-  > lambda (Compute -> Lambda)
+    > lambda (Compute -> Lambda)
 
-  > DynamoDB (Database -> DynamoDB)
+    > DynamoDB (Database -> DynamoDB)
 
-  > API gateway (Application Services -> API Gateway)
+    > API gateway (Application Services -> API Gateway)
 
-  > CloudFormation (Management Tools -> CloudFormation)
+    > CloudFormation (Management Tools -> CloudFormation)
 
 # Create and test a simple microservice
 In this part, you will create a simple microservice based on a lambda that is callable through the API gateway
