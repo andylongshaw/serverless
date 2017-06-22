@@ -33,13 +33,13 @@ In this part, you will create a simple microservice based on a lambda that is ca
 
     > Click Create Stack
 
-    > Select Template -> Choose a template -> Upload a template
+    > Select Template -> Choose a template -> Upload a template to Amazon S3 -> Choose File
 
     > Select the file spa2017-apigateway-lambda.template
 
-    > Specify details -> Stack name - set this to \<My Animal\>APIGatewayStack
+    > Specify details -> Stack name - set this to \<MyAnimal\>APIGatewayStack
 
-    > Parameters -> namePrefixParameter - change this from spa2017 to \<My Animal\>
+    > Parameters -> namePrefixParameter - change this from spa2017 to \<MyAnimal\>
 
     > Options -> just click Next
 
@@ -87,13 +87,13 @@ In this part you will update your lambda function to write a record to the Custo
 
     > Select Create Stack
 
-    > Select Template -> Choose a template -> Upload a template
+    > Select Template -> Choose a template -> Upload a template to Amazon S3 -> Choose File
 
     > Select the file spa2017-dynamodb-lambda.template
 
-    > Specify details -> Stack name - set this to \<My Animal\>DynamodbStack
+    > Specify details -> Stack name - set this to \<MyAnimal\>DynamoDBStack
 
-    > Parameters -> namePrefixParameter - change this from spa2017 to \<My Animal\>
+    > Parameters -> namePrefixParameter - change this from spa2017 to \<MyAnimal\>
 
     > Options -> just click Next
 
@@ -101,7 +101,7 @@ In this part you will update your lambda function to write a record to the Custo
 
     > Wait until the Status of the stack in the list of Stacks is CREATE_COMPLETE
 
-1. In the AWS console, navigate to the DynamoDB console and examine the \<My Animal\>-CustomerTable
+1. In the AWS console, navigate to the DynamoDB console and examine the \<MyAnimal\>-CustomerTable
 
     > Click Tables in the left-hand navigation bar
 
@@ -123,7 +123,7 @@ In this part you will update your lambda function to write a record to the Custo
 
     > Review the code to make sure you can roughly follow what it does
 
-1. Change the 'table_name' variable to be \<MyAnimal\>-CustomerTable
+1. Change the 'table_name' variable to be \<MyAnimal\>-CustomerTable and click Save
 
 1. Run the test to insert a record
 
@@ -183,7 +183,7 @@ In this part you will create a lambda that will react to the writing of the Cust
 
     > Review the code to make sure you can roughly follow what it does
 
-1. Change the 'table_name' variable to be \<MyAnimal\>-PendingEmailTable
+1. Change the 'table_name' variable to be \<MyAnimal\>-PendingEmailTable and click Save
 
 1. Run the test to insert a record
 
@@ -195,7 +195,7 @@ In this part you will create a lambda that will react to the writing of the Cust
 
     > Examine the execution result and the log output
 
-1. Navigate to the DynamoDB console and check that it contains a Customer matching the data in the message file above
+1. Navigate to the DynamoDB console and check that the \<MyAnimal\>-PendingEmailTable contains a pending email matching the data in the message file above
 
 # Run the lambda combination end-to-end
 
