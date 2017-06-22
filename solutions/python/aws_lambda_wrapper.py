@@ -3,7 +3,7 @@ import json
 
 print('Loading function')
 dynamo = boto3.resource("dynamodb", region_name='eu-west-1')
-table_name='ZebraCustomer'
+table_name='Animal-CustomerTable'
 
 
 def respond(err, res=None):

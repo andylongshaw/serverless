@@ -8,7 +8,7 @@ table_name = 'Bat-PendingEmailTable'
 
 
 def lambda_handler(event, context):
-    print("Received event: " + json.dumps(event, indent=2))
+    # print("Received event: " + json.dumps(event, indent=2))
     for recordInfo in event['Records']:
         record = recordInfo['dynamodb']['NewImage']
         create_email_record(record['customerId']['S'], record['name']['S'])
