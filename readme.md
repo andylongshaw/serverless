@@ -56,8 +56,11 @@ In this part, you will create a simple microservice based on a lambda that is ca
 
     > \<My Animal\>
 
+1. In the AWS console, navigate to the DynamoDB console and examine the \<My Animal\>CustomerTable ***CHECK_NAME***
 
-1. Replace the code in it with the example code from the repository
+    > Items
+
+1. In the AWS console, navigate to the Lambda console and replace the code in your microservice lambda with the example code from the repository
 
     > Open the file solutions/python/aws_lambda_wrapper.py
 
@@ -69,49 +72,72 @@ In this part, you will create a simple microservice based on a lambda that is ca
 
     > Review the code to make sure you can roughly follow what it does
 
-1. In the AWS console, navigate to the DynamoDB console and examine the \<My Animal\>CustomerTable ***CHECK_NAME***
+1. Change the 'table_name' variable to be ***TBA***
 
-    > Items
-
-1. Go back to the ***TBA*** lambda function and change the 'table_name' variable to be ***TBA***
-
-1. Run the test twice - once to insert a record and once to retrieve it
+1. Run the test to insert a record
 
     > DynamoDB_microservice_message_insert.json
 
+1. In the DynamoDB console, go see the data
+
+1. Run the test to retrieve the record
+
     > DynamoDB_microservice_message_retrieve.json
+
+1. try adjusting the json files to add/retrieve different records
+
+
+# Create and test the Customer Email event handler
+In this part you will create a lambda that will react to the writing of the CustomerTable record by updating a second table (PendingEmailsTable).
+
+1. In the DynamoDB console, navigate to the \<MyAnimal\>PendingEmailsTable ***CONFIRM***
+
+    > emailId
+
+1. Now navigate to the \<MyAnimal\>PendingEmailsTable and look at the Triggers tab
+
+    > lambda connection
+
+1. Click through the lambda link in the Trigger and populate the event handler lambda with the example code from the repository
+
+    > Open the file solutions/python/aws_lambda_event_handler.py
+
+    > Click on the Code tab in your ***TBA*** lambda function
+
+    > Paste the code from the file into the code box, completely replacing what was there before
+
+    > Click the Save button
+
+    > Review the code to make sure you can roughly follow what it does
+
+1. Change the 'table_name' variable to be ***TBA***
+
+1. Run the test to insert a record
+
+    > DynamoDB_event_lambda_message_insert.json
 
 1. In the DynamoDB console, go see the data
 
-**HERE**
-use the pre-provided create customer and retrieve customer JSON files in your test, try adjusting the json files to add/retrieve different records
+# Run the lambda combination end-to-end
+
+1. In the AWS console, navigate back to the ***TBA*** lambda
+
+1. Edit the test to change the customerId and name
+
+1. Run the test
+
+1. Check you get the right customer record in ***TBA***
+
+1. Check you get the right email record in ***TBA***
 
 
-inserts a row in a DynamoDB database table (\<MyAnimal\>Customer) in response to a REST message.
+# Extension 1 - invoke the microservice lambda from the API gateway console
 
-# Create and test the Customer Email event handler
-In this part you will create a lambda that will react to the writing of the Customer record by updating a second table (PendingEmails).
+1. insert a row in a DynamoDB database table (\<MyAnimal\>Customer) in response to a REST message
 
-1. Create \<MyAnimal\>PendingEmails table in DynamoDB with a primary key (Partition Key) of 'emailId'
-    > In the AWS Console, select Database -> DynamoDB -> Create Table
-    > Enter the name of the table and the primary key - leave all other options as default
-1. Alter the **\<MyAnimal\>Customer** table in DynamoDB so that it generates an event stream when records are inserted
-    > Find the table in the AWS Console and click on it
-    > Select Overview -> Stream Details -> Manage Stream -> old and new images
+1. retrieve a row from a DynamoDB database table (\<MyAnimal\>Customer) in response to a REST message
 
-    Breadcrumbs from here...
-
-    Dynamodb process stream python
-    Table: Animal customer
-    Starting pos: latest
-    Function name: ZebraCustomerWelcomeEmail
-    Role: ZebraRole
-
-    Test event: DyanmoDb update
-    IAM: add AmazonDynamoDBFullControl to Animal Role
-**HERE**
-
-# Call the Customer microservice from a command line client
+# Extension 2 - invoke the microservice lambda from the AWS CLI
 
 Python 3 installed locally
 sudo pip3 install boto3
