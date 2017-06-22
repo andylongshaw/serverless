@@ -1,5 +1,5 @@
 # Objective
-To create two AWS lambdas that communicate via a database. One lambda will insert a new customer record into a Customer table. The other lambda will respond to that customer record creation by creating the information required for a welcome email into a PendingEmails table.
+To create two AWS lambdas that communicate via a database. One lambda will insert a new customer record into a Customer table. The other lambda will respond to that customer record creation by creating the information required for a welcome email into a PendingEmail table.
 
 # Before you start
 To avoid a lot of complex pre-requisites, this workshop uses a single AWS account (**TBA**). In order to avoid the different groups clashing with eachother, each group will be assigned an animal name that they will use as the prefix for all the different resources they create as part of this exercise (DynamoDB tables, lambdas, microservices, etc.)
@@ -25,29 +25,27 @@ The supporting artefacts for the exercises can be found in the public repository
 # Create and test a simple microservice
 In this part, you will create a simple microservice based on a lambda that is callable through the API gateway
 
-1. Locate the cloudformation folder in the github repository. Make sure you have the two CloudFormation template files on your local disk.
-
-1. In the AWS console, navigate to the CloudFormation console.
+1. Locate the cloudformation folder in the github repository. Make sure you have the two CloudFormation *.template* files on your local disk.
 
 1. Create a new CloudFormation Stack based on the instructions below
 
     > In the AWS Console, navigate to the CloudFormation console
 
-    > Select Create Stack
+    > Click Create Stack
 
-    > Select Template -> Choose a template -> Upload a template
+    > Select Template -> Choose a template -> Upload a template to Amazon S3 -> Choose File
 
     > Select the file spa2017-apigateway-lambda.template
 
-    > Specify details -> Stack name - set this to \<My Animal\>APIGatewayStack
+    > Specify details -> Stack name - set this to \<MyAnimal\>APIGatewayStack
 
-    > Parameters -> namePrefixParameter - change this from spa2017 to \<My Animal\>
+    > Parameters -> namePrefixParameter - change this from spa2017 to \<MyAnimal\>
 
     > Options -> just click Next
 
     > Review -> click the "I acknowledge that..." checkbox -> Create
 
-    > Wait until the Status of the stack in the list of Stacks is CREATE_COMPLETE
+    > Wait until the Status of this new stack in the list of Stacks is CREATE_COMPLETE
 
 1. In the AWS console, navigate to the Lambda console and locate the lambda you just created (\<MyAnimal\>-ApiHandlerLambda)
 
@@ -55,12 +53,29 @@ In this part, you will create a simple microservice based on a lambda that is ca
 
     > Code, configuration, monitoring
 
-1. ***TBA*** Test it with default contents
+1. Test invoking your lambda in the lambda console
 
-    > Load the test file from disk/github DynamoDB_microservice_message_insert.json
+    > Click the "Test" button
+    
+    > Check that the selected test message is the one listed as "Hello World" in the dropdown list
+    
+    > Click "Save and test"
+    
+    > Review the execution results at the bottom of the page
 
-1. ***TBA***- test it from the API gateway?
+1. Test it from the API gateway
 
+    > Navigate to the API Gateway console
+    
+    > Select the \<MyAnimal\>-LambdaApi
+    
+    > Under /customer click GET
+    
+    > Click the Test link near the lightning flash
+    
+    > Click the Test button
+    
+    > Examine the response/logs
 
 
 # Make your simple microservice store data in DynamoDB
@@ -72,13 +87,13 @@ In this part you will update your lambda function to write a record to the Custo
 
     > Select Create Stack
 
-    > Select Template -> Choose a template -> Upload a template
+    > Select Template -> Choose a template -> Upload a template to Amazon S3 -> Choose File
 
     > Select the file spa2017-dynamodb-lambda.template
 
-    > Specify details -> Stack name - set this to \<My Animal\>DynamodbStack
+    > Specify details -> Stack name - set this to \<MyAnimal\>DynamoDBStack
 
-    > Parameters -> namePrefixParameter - change this from spa2017 to \<My Animal\>
+    > Parameters -> namePrefixParameter - change this from spa2017 to \<MyAnimal\>
 
     > Options -> just click Next
 
@@ -86,7 +101,7 @@ In this part you will update your lambda function to write a record to the Custo
 
     > Wait until the Status of the stack in the list of Stacks is CREATE_COMPLETE
 
-1. In the AWS console, navigate to the DynamoDB console and examine the \<My Animal\>-CustomerTable
+1. In the AWS console, navigate to the DynamoDB console and examine the \<MyAnimal\>-CustomerTable
 
     > Click Tables in the left-hand navigation bar
 
@@ -108,7 +123,7 @@ In this part you will update your lambda function to write a record to the Custo
 
     > Review the code to make sure you can roughly follow what it does
 
-1. Change the 'table_name' variable to be \<MyAnimal\>-CustomerTable
+1. Change the 'table_name' variable to be \<MyAnimal\>-CustomerTable and click Save
 
 1. Run the test to insert a record
 
@@ -168,7 +183,7 @@ In this part you will create a lambda that will react to the writing of the Cust
 
     > Review the code to make sure you can roughly follow what it does
 
-1. Change the 'table_name' variable to be \<MyAnimal\>-PendingEmailTable
+1. Change the 'table_name' variable to be \<MyAnimal\>-PendingEmailTable and click Save
 
 1. Run the test to insert a record
 
@@ -180,7 +195,7 @@ In this part you will create a lambda that will react to the writing of the Cust
 
     > Examine the execution result and the log output
 
-1. Navigate to the DynamoDB console and check that it contains a Customer matching the data in the message file above
+1. Navigate to the DynamoDB console and check that the \<MyAnimal\>-PendingEmailTable contains a pending email matching the data in the message file above
 
 # Run the lambda combination end-to-end
 
@@ -194,24 +209,8 @@ In this part you will create a lambda that will react to the writing of the Cust
 
 1. Check you get an appropriate email record in \<MyAnimal\>-PendingEmailTable
 
+# What now?
 
-# Extension 1 - invoke the microservice lambda from the API gateway console
-
-1. insert a row in a DynamoDB database table (\<MyAnimal\>Customer) in response to a REST message
-
-1. retrieve a row from a DynamoDB database table (\<MyAnimal\>Customer) in response to a REST message
-
-# Extension 2 - invoke the microservice lambda from the AWS CLI
-
-Python 3 installed locally
-sudo pip3 install boto3
-sudo pip3 install requests
+Well, you could either try the [extension exercises](extensions.md) or you could go and get a well-earned coffee.
 
 
-OR
-
-
-1. Install the AWS CLI on your laptop following [these instructions](http://docs.aws.amazon.com/cli/latest/userguide/installing.html)
-1.  Take care to use the configuration file advice on the http://docs.aws.amazon.com/lambda/latest/dg/setup-awscli.html page, not the regular CLI instructions
-
-use the CLI API
