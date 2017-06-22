@@ -1,5 +1,5 @@
 # Objective
-To create two AWS lambdas that communicate via a database. One lambda will insert a new customer record into a Customer table. The other lambda will respond to that customer record creation by creating the information required for a welcome email into a PendingEmails table.
+To create two AWS lambdas that communicate via a database. One lambda will insert a new customer record into a Customer table. The other lambda will respond to that customer record creation by creating the information required for a welcome email into a PendingEmail table.
 
 # Before you start
 To avoid a lot of complex pre-requisites, this workshop uses a single AWS account (**TBA**). In order to avoid the different groups clashing with eachother, each group will be assigned an animal name that they will use as the prefix for all the different resources they create as part of this exercise (DynamoDB tables, lambdas, microservices, etc.)
@@ -25,15 +25,13 @@ The supporting artefacts for the exercises can be found in the public repository
 # Create and test a simple microservice
 In this part, you will create a simple microservice based on a lambda that is callable through the API gateway
 
-1. Locate the cloudformation folder in the github repository. Make sure you have the two CloudFormation template files on your local disk.
-
-1. In the AWS console, navigate to the CloudFormation console.
+1. Locate the cloudformation folder in the github repository. Make sure you have the two CloudFormation *.template* files on your local disk.
 
 1. Create a new CloudFormation Stack based on the instructions below
 
     > In the AWS Console, navigate to the CloudFormation console
 
-    > Select Create Stack
+    > Click Create Stack
 
     > Select Template -> Choose a template -> Upload a template
 
@@ -47,7 +45,7 @@ In this part, you will create a simple microservice based on a lambda that is ca
 
     > Review -> click the "I acknowledge that..." checkbox -> Create
 
-    > Wait until the Status of the stack in the list of Stacks is CREATE_COMPLETE
+    > Wait until the Status of this new stack in the list of Stacks is CREATE_COMPLETE
 
 1. In the AWS console, navigate to the Lambda console and locate the lambda you just created (\<MyAnimal\>-ApiHandlerLambda)
 
@@ -55,12 +53,29 @@ In this part, you will create a simple microservice based on a lambda that is ca
 
     > Code, configuration, monitoring
 
-1. ***TBA*** Test it with default contents
+1. Test invoking your lambda in the lambda console
 
-    > Load the test file from disk/github DynamoDB_microservice_message_insert.json
+    > Click the "Test" button
+    
+    > Check that the selected test message is the one listed as "Hello World" in the dropdown list
+    
+    > Click "Save and test"
+    
+    > Review the execution results at the bottom of the page
 
-1. ***TBA***- test it from the API gateway?
+1. Test it from the API gateway
 
+    > Navigate to the API Gateway console
+    
+    > Select the \<MyAnimal\>-LambdaApi
+    
+    > Under /customer click GET
+    
+    > Click the Test link near the lightning flash
+    
+    > Click the Test button
+    
+    > Examine the response/logs
 
 
 # Make your simple microservice store data in DynamoDB
