@@ -12,7 +12,9 @@ The supporting artefacts for the exercises can be found in the public repository
 
 1. Make sure you can log into the AWS console for the account using the AWS user for your group: *\<MyAnimal\>Admin*
 
-    > ***TBA*** URL needed here
+    > Navigate to https://TBA.signin.aws.amazon.com/console
+    
+    > Enter the username and password provided to log in
 
 1. Use the main console search bar to locate the individual consoles you will need during this exercise:
 
