@@ -10,7 +10,9 @@ The supporting artefacts for the exercises can be found in the public repository
 
 # Getting ready
 
-1. Make sure you can log into the AWS console for the account using the AWS user for your group: \<MyAnimal\>Admin
+1. Make sure you can log into the AWS console for the account using the AWS user for your group: *\<MyAnimal\>Admin*
+
+    > ***TBA*** URL needed here
 
 1. Use the main console search bar to locate the individual consoles you will need during this exercise:
 
@@ -31,23 +33,23 @@ In this part, you will create a simple microservice based on a lambda that is ca
 
     > In the AWS Console, navigate to the CloudFormation console
 
-    > Click Create Stack
+    > Click "Create Stack"
 
     > Select Template -> Choose a template -> Upload a template to Amazon S3 -> Choose File
 
-    > Select the file spa2017-apigateway-lambda.template
+    > Select the file *spa2017-apigateway-lambda.template*
 
-    > Specify details -> Stack name - set this to \<MyAnimal\>APIGatewayStack
+    > Specify details -> Stack name - set this to *\<MyAnimal\>APIGatewayStack*
 
-    > Parameters -> namePrefixParameter - change this from spa2017 to \<MyAnimal\>
+    > Parameters -> namePrefixParameter - change this from *spa2017* to *\<MyAnimal\>*
 
-    > Options -> just click Next
+    > Options -> just click "Next"
 
     > Review -> click the "I acknowledge that..." checkbox -> Create
 
-    > Wait until the Status of this new stack in the list of Stacks is CREATE_COMPLETE
+    > Wait until the *Status* of this new stack in the list of Stacks is *CREATE_COMPLETE*
 
-1. In the AWS console, navigate to the Lambda console and locate the lambda you just created (\<MyAnimal\>-ApiHandlerLambda)
+1. In the AWS console, navigate to the Lambda console and locate the lambda you just created (*\<MyAnimal\>-ApiHandlerLambda*)
 
 1. Examine the different tabs on the lambda
 
@@ -67,73 +69,73 @@ In this part, you will create a simple microservice based on a lambda that is ca
 
     > Navigate to the API Gateway console
     
-    > Select the \<MyAnimal\>-LambdaApi
+    > Select the *\<MyAnimal\>-LambdaApi*
     
-    > Under /customer click GET
+    > Under */customer* click "GET"
     
-    > Click the Test link near the lightning flash
+    > Click the "Test" link near the lightning flash
     
-    > Click the Test button
+    > Click the "Test" button
     
     > Examine the response/logs
 
 
 # Make your simple microservice store data in DynamoDB
-In this part you will update your lambda function to write a record to the CustomerTable.
+In this part you will update your lambda function to write a record to the *CustomerTable*.
 
 1. Create a second Cloud Formation Stack based on the instructions below
 
     > In the AWS Console, navigate to the CloudFormation console
 
-    > Select Create Stack
+    > Select "Create Stack"
 
     > Select Template -> Choose a template -> Upload a template to Amazon S3 -> Choose File
 
-    > Select the file spa2017-dynamodb-lambda.template
+    > Select the file *spa2017-dynamodb-lambda.template*
 
-    > Specify details -> Stack name - set this to \<MyAnimal\>DynamoDBStack
+    > Specify details -> Stack name - set this to *\<MyAnimal\>DynamoDBStack*
 
-    > Parameters -> namePrefixParameter - change this from spa2017 to \<MyAnimal\>
+    > Parameters -> namePrefixParameter - change this from *spa2017* to *\<MyAnimal\>*
 
-    > Options -> just click Next
+    > Options -> just click "Next"
 
     > Review -> click the "I acknowledge that..." checkbox -> Create
 
-    > Wait until the Status of the stack in the list of Stacks is CREATE_COMPLETE
+    > Wait until the *Status* of the stack in the list of Stacks is *CREATE_COMPLETE*
 
-1. In the AWS console, navigate to the DynamoDB console and examine the \<MyAnimal\>-CustomerTable
+1. In the AWS console, navigate to the DynamoDB console and examine the *\<MyAnimal\>-CustomerTable*
 
-    > Click Tables in the left-hand navigation bar
+    > Click "Tables" in the left-hand navigation bar
 
     > Click on the table name
 
-    > Examine the information in the Overview tab
+    > Examine the information in the *Overview* tab
 
-    > Look at the Items tab - this is where you can see your records appear
+    > Look at the *Items* tab - this is where you can see your records appear
 
 1. In the AWS console, navigate to the Lambda console and replace the code in your microservice lambda with the example code from the repository
 
-    > Open the file solutions/python/aws_lambda_wrapper.py
+    > Open the file *solutions/python/aws_lambda_wrapper.py*
 
-    > Click on the Code tab in your \<MyAnimal\>-ApiHandlerLambda lambda function
+    > Click on the *Code* tab in your *\<MyAnimal\>-ApiHandlerLambda* lambda function
 
     > Paste the code from the file into the code box, completely replacing what was there before
 
-    > Click the Save button
+    > Click the "Save" button
 
     > Review the code to make sure you can roughly follow what it does
 
-1. Change the 'table_name' variable to be \<MyAnimal\>-CustomerTable and click Save
+1. Change the *table_name* variable to be *\<MyAnimal\>-CustomerTable* and click "Save"
 
 1. Run the test to insert a record
 
-    > Navigate to the \<MyAnimal\>-ApiHandlerLambda lambda
+    > Navigate to the *\<MyAnimal\>-ApiHandlerLambda* lambda
 
-    > Click the Actions button and select Configure test event
+    > Click the "Actions" button and select "Configure test event"
 
-    > Locate the messages folder in the github repository and paste  the contents of the DynamoDB_microservice_message_insert.json file into the input test event box, completely replacing what was there before
+    > Locate the *messages* folder in the github repository and paste  the contents of the *DynamoDB_microservice_message_insert.json* file into the input test event box, completely replacing what was there before
 
-    > Click Save and Test
+    > Click "Save and Test"
 
     > Examine the execution result and the log output
 
@@ -141,13 +143,13 @@ In this part you will update your lambda function to write a record to the Custo
 
 1. Run the test to retrieve the record
 
-    > Navigate to the \<MyAnimal\>-ApiHandlerLambda lambda
+    > Navigate to the *\<MyAnimal\>-ApiHandlerLambda* lambda
 
-    > Click the Actions button and select Configure test event
+    > Click the "Actions" button and select "Configure test event"
 
-    > Locate the messages folder in the github repository and paste  the contents of the DynamoDB_microservice_message_retrieve.json file into the input test event box, completely replacing what was there before
+    > Locate the *messages* folder in the github repository and paste  the contents of the *DynamoDB_microservice_message_retrieve.json* file into the input test event box, completely replacing what was there before
 
-    > Click Save and Test
+    > Click "Save and Test"
 
     > Examine the execution result and the log output
 
