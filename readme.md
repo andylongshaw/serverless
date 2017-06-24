@@ -27,7 +27,7 @@ The supporting artefacts for the exercises can be found in the public repository
 # Create and test a simple microservice
 In this part, you will create a simple microservice based on a lambda that is callable through the API gateway
 
-1. Locate the cloudformation folder in the github repository. Make sure you have the two CloudFormation *.template* files on your local disk.
+1. Locate the *cloudformation* folder in the github repository. Make sure you have the two CloudFormation *.template* files on your local disk.
 
 1. Create a new CloudFormation Stack based on the instructions below
 
