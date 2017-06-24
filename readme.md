@@ -157,59 +157,59 @@ In this part you will update your lambda function to write a record to the *Cust
 
 
 # Create and test the Customer Email event handler
-In this part you will create a lambda that will react to the writing of the CustomerTable record by updating a second table (PendingEmailTable).
+In this part you will create a lambda that will react to the writing of the *CustomerTable* record by updating a second table (*PendingEmailTable*).
 
-1. In the DynamoDB console, navigate to the \<MyAnimal\>-PendingEmailTable
+1. In the DynamoDB console, navigate to the *\<MyAnimal\>-PendingEmailTable*
 
-    > Click Tables in the left-hand navigation bar
+    > Click "Tables" in the left-hand navigation bar
 
     > Click on the table name
 
-    > Examine the information in the Overview tab
+    > Examine the information in the *Overview* tab
 
-    > Look at the Items tab - this is where you can see your records appear
+    > Look at the *Items* tab - this is where you can see your records appear
 
-1. Now navigate to the \<MyAnimal\>-CustomerTable and look at the Triggers tab
+1. Now navigate to the *\<MyAnimal\>-CustomerTable* and look at the *Triggers* tab
 
-    > You should see an entry for a lambda called \<MyAnimal\>-DynamoChangeHandlerLambda
+    > You should see an entry for a lambda called *\<MyAnimal\>-DynamoChangeHandlerLambda*
 
-1. Click through the lambda link in the Trigger and populate the event handler lambda with the example code from the repository
+1. Click through the lambda link in the *Trigger* and populate the event handler lambda with the example code from the repository
 
-    > Open the file solutions/python/aws_lambda_event_handler.py
+    > Open the file *solutions/python/aws_lambda_event_handler.py*
 
-    > Click on the Code tab in your Bat-DynamoChangeHandlerLambda lambda function
+    > Click on the *Code* tab in your *\<MyAnimal\>-DynamoChangeHandlerLambda* lambda function
 
     > Paste the code from the file into the code box, completely replacing what was there before
 
-    > Click the Save button
+    > Click the "Save" button
 
     > Review the code to make sure you can roughly follow what it does
 
-1. Change the 'table_name' variable to be \<MyAnimal\>-PendingEmailTable and click Save
+1. Change the *table_name* variable to be *\<MyAnimal\>-PendingEmailTable* and click "Save"
 
 1. Run the test to insert a record
 
-    > Click the Actions button and select Configure test event
+    > Click the "Actions" button and select "Configure test event"
 
-    > Locate the messages folder in the github repository and paste  the contents of the DynamoDB_event_lambda_message_insert.json file into the input test event box, completely replacing what was there before
+    > Locate the *messages* folder in the github repository and paste  the contents of the *DynamoDB_event_lambda_message_insert.json* file into the input test event box, completely replacing what was there before
 
-    > Click Save and Test
+    > Click "Save and Test"
 
     > Examine the execution result and the log output
 
-1. Navigate to the DynamoDB console and check that the \<MyAnimal\>-PendingEmailTable contains a pending email matching the data in the message file above
+1. Navigate to the DynamoDB console and check that the *\<MyAnimal\>-PendingEmailTable* contains a pending email matching the data in the message file above
 
 # Run the lambda combination end-to-end
 
-1. In the AWS console, navigate back to the \<MyAnimal\>-ApiHandlerLambda lambda
+1. In the AWS console, navigate back to the *\<MyAnimal\>-ApiHandlerLambda* lambda
 
-1. Edit the test to change it to the POST/create version of the message and change the customerId and name to something distinctive
+1. Edit the test to change it to the POST/create version of the message and change the *customerId* and name to something distinctive
 
 1. Run the test
 
-1. Check you get the right customer record in \<MyAnimal\>-CustomerTable
+1. Check you get the right customer record in *\<MyAnimal\>-CustomerTable*
 
-1. Check you get an appropriate email record in \<MyAnimal\>-PendingEmailTable
+1. Check you get an appropriate email record in *\<MyAnimal\>-PendingEmailTable*
 
 # What now?
 
