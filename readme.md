@@ -129,8 +129,6 @@ In this part you will update your lambda function to write a record to the *Cust
 
 1. Run the test to insert a record
 
-    > Navigate to the *\<MyAnimal\>-ApiHandlerLambda* lambda
-
     > Click the "Actions" button and select "Configure test event"
 
     > Locate the *messages* folder in the github repository and paste  the contents of the *DynamoDB_microservice_message_insert.json* file into the input test event box, completely replacing what was there before
