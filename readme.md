@@ -2,7 +2,7 @@
 To create two AWS lambdas that communicate via a database. One lambda will insert a new customer record into a Customer table. The other lambda will respond to that customer record creation by inserting the information required for a welcome email into a PendingEmail table.
 
 # Before you start
-To avoid a lot of complex pre-requisites, this workshop uses a single AWS account (**TBA**). In order to avoid the different groups clashing with eachother, each group will be assigned an animal name that they will use as the prefix for all the different resources they create as part of this exercise (DynamoDB tables, lambdas, microservices, etc.)
+To cut out a lot of complex pre-requisites, this workshop uses a single AWS account. In order to avoid the different groups clashing with eachother, each group will be assigned an animal name that they will use as the prefix for all the different resources they create as part of this exercise (DynamoDB tables, lambdas, microservices, etc.)
 
 The session leaders will provide you with a password for the AWS user you will use to create all your resources.
 
@@ -12,7 +12,7 @@ The supporting artefacts for the exercises can be found in the public repository
 
 1. Make sure you can log into the AWS console for the account using the AWS user for your group: *\<MyAnimal\>Admin*
 
-    > Navigate to https://TBA.signin.aws.amazon.com/console
+    > Navigate to https://612280087062.signin.aws.amazon.com/console
     
     > Enter the username and password provided to log in
 
