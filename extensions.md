@@ -44,17 +44,17 @@
     
     > Paste the following as the template body:
     
-        > {
-        >     "httpMethod": "$context.httpMethod",
-        >     "body" : $input.json('$')
-        > }
+    > {
+    >     "httpMethod": "$context.httpMethod",
+    >     "body" : $input.json('$')
+    > }
         
     > Run the *POST* method "Test" with a message body something like this:
     
-        > {
-        >     "customerId": "A1299",
-        >     "name": "Freddo Bloggszzy"
-        > }
+    > {
+    >     "customerId": "A1299",
+    >     "name": "Freddo Bloggszzy"
+    > }
         
     > Examine your response
     
