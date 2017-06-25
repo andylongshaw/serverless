@@ -1,20 +1,63 @@
-# Extension 1 - invoke the microservice lambda from the API gateway console
+# Extension 1 - Access customer records from the API gateway console
 
-1. insert a row in a DynamoDB database table (\<MyAnimal\>Customer) in response to a REST message
+1. Retrieve a customer record via the API Gateway
 
-1. retrieve a row from a DynamoDB database table (\<MyAnimal\>Customer) in response to a REST message
+    > Navigate to the API Gateway console
+    
+    > Locate the *GET* method for your service
 
-# Extension 2 - invoke the microservice lambda from the AWS CLI
+1. Run the *GET* method but this time provide a *customerId* parameter in the *Query Strings* box, e.g. "customerId=?????" where "?????" is the id of any customer you have created in your *CustomerTable*
 
-Python 3 installed locally
-sudo pip3 install boto3
-sudo pip3 install requests
+# Extension 2 - Access the customer service from a client
 
+1. You can use either curl or write a small client
 
-OR
+1. Invoke the API through its URL
 
+    > Navigate to the API Gateway and click Stages -> LATEST
 
-1. Install the AWS CLI on your laptop following [these instructions](http://docs.aws.amazon.com/cli/latest/userguide/installing.html)
-1.  Take care to use the configuration file advice on the http://docs.aws.amazon.com/lambda/latest/dg/setup-awscli.html page, not the regular CLI instructions
+    > You can find the base URL at the top of this tab
 
-use the CLI API
+    > Create the invocation URL by adding "/customer?customerId=?????" to the base URL where "?????" is the id of any customer you have created in your *CustomerTable*
+
+    > For example: *curl https://mr2u24f25a.execute-api.eu-west-1.amazonaws.com/LATEST/customer?customerId=A1234*
+
+# Extension 3 - Create customer records from the API gateway console
+
+1. Add a POST method in the API Gateway
+
+    > Actions -> Create Method -> POST
+    
+    > Click the checkbox for "Use lambda proxy integration"
+    
+    > Set Lambda region "eu-west-1"
+    
+    > Set Lambda function to *\<MyAnimal\>-ApiHandlerLambda*
+    
+    > Click "Save"
+    
+    > Click "OK" to add permission
+
+    > In the Method Execution diagram, click "Integration Request"
+    
+    > In "Body Mapping Templates" click the "+" to "Add mapping template"
+    
+    > Paste the following as the template body:
+    
+        > {
+        >     "httpMethod": "$context.httpMethod",
+        >     "body" : $input.json('$')
+        > }
+        
+    > Run the *POST* method "Test" with a message body something like this:
+    
+        > {
+        >     "customerId": "A1299",
+        >     "name": "Freddo Bloggszzy"
+        > }
+        
+    > Examine your response
+    
+    > Check the CustomerTable and the PendingEmailTable for the new records
+    
+That's it!
