@@ -4,7 +4,7 @@ import uuid
 
 # print('Loading function')
 dynamo = boto3.resource("dynamodb", region_name='eu-west-1')
-table_name = 'Bat-PendingEmailTable'
+table_name = 'Animal-PendingEmailTable'
 
 
 def lambda_handler(event, context):
