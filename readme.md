@@ -15,6 +15,8 @@ The supporting artefacts for the exercises can be found in the public repository
     > Navigate to https://612280087062.signin.aws.amazon.com/console
     
     > Enter the username and password provided to log in
+    
+1. **MAKE SURE** you select "EU (Ireland)" as your default location (from drop-down in the top-right of the console)
 
 1. Use the main console search bar to locate the individual consoles you will need during this exercise:
 
@@ -115,9 +117,9 @@ In this part you will update your lambda function to write a record to the *Cust
 
     > Look at the *Items* tab - this is where you can see your records appear
 
-1. In the AWS console, navigate to the Lambda console and replace the code in your microservice lambda with the example code from the repository
+1. In the AWS console, navigate to the Lambda console and replace the code in your API gateway lambda with the example code from the repository
 
-    > Open the file *solutions/python/aws_lambda_cuatomer_rest.py*
+    > Open the file *solutions/python/aws_lambda_customer_rest.py*
 
     > Click on the *Code* tab in your *\<MyAnimal\>-ApiHandlerLambda* lambda function
 
