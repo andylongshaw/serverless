@@ -44,18 +44,22 @@
     
     > Paste the following as the template body:
     
-    > {
-    >     "httpMethod": "$context.httpMethod",
-    >     "body" : $input.json('$')
-    > }
+    <pre>
+    {
+        "httpMethod": "$context.httpMethod",
+        "body" : $input.json('$')
+    }
+    </pre>
         
     > Run the *POST* method "Test" with a message body something like this:
     
-    > {
-    >     "customerId": "A1299",
-    >     "name": "Freddo Bloggszzy"
-    > }
-        
+    <pre>
+    {
+        "customerId": "A1299",
+        "name": "Freddo Bloggszzy"
+    }
+    </pre>
+    
     > Examine your response
     
     > Check the CustomerTable and the PendingEmailTable for the new records
