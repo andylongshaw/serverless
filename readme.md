@@ -117,7 +117,7 @@ In this part you will update your lambda function to write a record to the *Cust
 
 1. In the AWS console, navigate to the Lambda console and replace the code in your microservice lambda with the example code from the repository
 
-    > Open the file *solutions/python/aws_lambda_wrapper.py*
+    > Open the file *solutions/python/aws_lambda_cuatomer_rest.py*
 
     > Click on the *Code* tab in your *\<MyAnimal\>-ApiHandlerLambda* lambda function
 
@@ -133,7 +133,7 @@ In this part you will update your lambda function to write a record to the *Cust
 
     > Click the "Actions" button and select "Configure test event"
 
-    > Locate the *messages* folder in the github repository and paste  the contents of the *DynamoDB_microservice_message_insert.json* file into the input test event box, completely replacing what was there before
+    > Locate the *messages* folder in the github repository and paste the contents of the *customer_rest_message_insert.json* file into the input test event box, completely replacing what was there before
 
     > Click "Save and Test"
 
@@ -147,7 +147,7 @@ In this part you will update your lambda function to write a record to the *Cust
 
     > Click the "Actions" button and select "Configure test event"
 
-    > Locate the *messages* folder in the github repository and paste  the contents of the *DynamoDB_microservice_message_retrieve.json* file into the input test event box, completely replacing what was there before
+    > Locate the *messages* folder in the github repository and paste  the contents of the *customer_rest_message_retrieve.json* file into the input test event box, completely replacing what was there before
 
     > Click "Save and Test"
 
@@ -156,7 +156,7 @@ In this part you will update your lambda function to write a record to the *Cust
 1. Try adjusting the json files to add/retrieve different records
 
 
-# Create and test the Customer Email event handler
+# Create and test the Customer Email trigger
 In this part you will create a lambda that will react to the writing of the *CustomerTable* record by updating a second table (*PendingEmailTable*).
 
 1. In the DynamoDB console, navigate to the *\<MyAnimal\>-PendingEmailTable*
@@ -173,9 +173,9 @@ In this part you will create a lambda that will react to the writing of the *Cus
 
     > You should see an entry for a lambda called *\<MyAnimal\>-DynamoChangeHandlerLambda*
 
-1. Click through the lambda link in the *Trigger* and populate the event handler lambda with the example code from the repository
+1. Click through the lambda link in the *Trigger* and populate the trigger lambda with the example code from the repository
 
-    > Open the file *solutions/python/aws_lambda_event_handler.py*
+    > Open the file *solutions/python/aws_lambda_email_trigger.py*
 
     > Click on the *Code* tab in your *\<MyAnimal\>-DynamoChangeHandlerLambda* lambda function
 
@@ -191,7 +191,7 @@ In this part you will create a lambda that will react to the writing of the *Cus
 
     > Click the "Actions" button and select "Configure test event"
 
-    > Locate the *messages* folder in the github repository and paste  the contents of the *DynamoDB_event_lambda_message_insert.json* file into the input test event box, completely replacing what was there before
+    > Locate the *messages* folder in the github repository and paste  the contents of the *new_customer_trigger_message.json* file into the input test event box, completely replacing what was there before
 
     > Click "Save and Test"
 
