@@ -51,7 +51,7 @@
     }
     </pre>
         
-    Run the *POST* method "Test" with a message body something like this
+    > Run the *POST* method "Test" with a message body something like this
     
     <pre>
     {
@@ -60,8 +60,8 @@
     }
     </pre>
     
-    Examine your response
+    > Examine your response
     
-    Check the CustomerTable and the PendingEmailTable for the new records
+    > Check the CustomerTable and the PendingEmailTable for the new records
     
 That's it!
