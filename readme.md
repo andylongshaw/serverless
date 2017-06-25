@@ -115,9 +115,9 @@ In this part you will update your lambda function to write a record to the *Cust
 
     > Look at the *Items* tab - this is where you can see your records appear
 
-1. In the AWS console, navigate to the Lambda console and replace the code in your microservice lambda with the example code from the repository
+1. In the AWS console, navigate to the Lambda console and replace the code in your API gateway lambda with the example code from the repository
 
-    > Open the file *solutions/python/aws_lambda_cuatomer_rest.py*
+    > Open the file *solutions/python/aws_lambda_customer_rest.py*
 
     > Click on the *Code* tab in your *\<MyAnimal\>-ApiHandlerLambda* lambda function
 
