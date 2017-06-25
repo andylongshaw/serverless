@@ -16,7 +16,7 @@ The supporting artefacts for the exercises can be found in the public repository
     
     > Enter the username and password provided to log in
     
-    > When you have logged in MAKE SURE you select "EU (Ireland)" as your default location (from drop-down in the top-right of the console)
+1. **MAKE SURE** you select "EU (Ireland)" as your default location (from drop-down in the top-right of the console)
 
 1. Use the main console search bar to locate the individual consoles you will need during this exercise:
 
