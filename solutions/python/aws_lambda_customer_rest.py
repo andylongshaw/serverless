@@ -3,7 +3,7 @@ import json
 
 print('Loading function')
 dynamo = boto3.resource("dynamodb", region_name='eu-west-1')
-table_name='ZebraCustomer'
+table_name='Animal-CustomerTable'
 
 
 def respond(err, res=None):
@@ -23,12 +23,12 @@ def lambda_handler(event, context):
     method = event['httpMethod']
 
     if method == 'GET':
-        body = event['body']
-        response = retrieve_customer_record(body['customerId'])
+        params = event['queryStringParameters']
+        response = retrieve_customer_record(params['customerId'])
         err = None
     elif method == 'POST':
-        body = event['body']
-        response = create_customer_record(body['customerId'], body['name'])
+        params = event['body']
+        response = create_customer_record(params['customerId'], params['name'])
         err = None
     else:
         err = ValueError('Unsupported method "{}"'.format(method))

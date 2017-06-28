@@ -1,7 +1,6 @@
 {
   "httpMethod": "GET",
-  "body": {
+  "queryStringParameters": {
     "customerId": "A1234"
   }
 }
-

@@ -4,11 +4,11 @@ import uuid
 
 # print('Loading function')
 dynamo = boto3.resource("dynamodb", region_name='eu-west-1')
-table_name = 'Bat-PendingEmailTable'
+table_name = 'Animal-PendingEmailTable'
 
 
 def lambda_handler(event, context):
-    print("Received event: " + json.dumps(event, indent=2))
+    # print("Received event: " + json.dumps(event, indent=2))
     for recordInfo in event['Records']:
         record = recordInfo['dynamodb']['NewImage']
         create_email_record(record['customerId']['S'], record['name']['S'])
